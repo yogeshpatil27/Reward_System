@@ -1,8 +1,7 @@
 
 import styled from 'styled-components';
-
 import { Form, Button, Row, Col } from "react-bootstrap"
-
+import { isAuthenticated } from '../../Authen';
 import React, { useState, useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./register.css";
@@ -11,9 +10,7 @@ import axios from "axios";
 
 
 const Edituser = (props) => {
-
-    
-
+  
 const Container= styled.div`
 display : flex;
 align-item:center;
@@ -37,15 +34,23 @@ display:flex;
 justify-content:space-between;
 `
 
-
 const history = useHistory();
+  const {id} = useParams();
+ 
+  useEffect(() => {
+    if (isAuthenticated() && isAuthenticated().designation === "Admin") {
+        history.push("/edit/"+id);
+      } else{
+          history.push('/')
+      }
+}, [history])
+
+
 
 const close=()=>{
     history.push("/EmployeeDetails");
   }
-
-  const {id} = useParams();
-
+  
   const [ empDetails, setEmployee ] = useState({
     name: "",
     email: "",
@@ -99,9 +104,6 @@ const update = () => {
             <Form.Label column sm="4">
               Name
             </Form.Label>
-
-            {/* <input  value={empDetails.name}
-                onChange={handleChange} placeholder="My Name"></input> */}
             <Col sm="8">
               <Form.Control
                 name="name"

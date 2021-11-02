@@ -139,7 +139,7 @@ useEffect(() => {
           </Form.Group>
 
           <div>
-            <Col sm="12">
+            <Col sm="16">
               <Button
                 className="Managecontainer"
                 size="lg"
@@ -147,7 +147,7 @@ useEffect(() => {
                 onClick={login}
                 type="submit"
               >
-                Submit
+              Login
               </Button>
             </Col>
           </div>
