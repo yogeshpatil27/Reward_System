@@ -1,0 +1,29 @@
+.setupLogin {
+    background-color:#282c34;
+    min-height: 100vh;
+    display:flex;
+    flex-direction:center;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color:honeydew;
+  }
+
+.Managecontainer{
+margin-left: 30vh;
+align-items: flex-end;
+}
+
+
+.SetupFormLogin{
+    background-color:#282c34;
+    width:90vh;
+    height:70vh; 
+    margin-top: 2vh;
+   margin: 20,20,20,20;
+   text-align: center;
+   justify-content: center;
+   align-items: center;
+   display:flex;
+   
+  }

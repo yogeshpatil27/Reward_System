@@ -1,0 +1,23 @@
+.setup {
+    background: #282c34;
+    min-height: 100vh;
+    display:flex;
+    flex-direction:center;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+  }
+
+  .SetupForm{
+    background-color:#282c34;
+    width:90vh;
+    height:70vh; 
+    margin-top: 2vh;
+   margin: 20,20,20,20;
+   text-align: center;
+   justify-content: center;
+   align-items: center;
+   display:flex;
+   
+  }
