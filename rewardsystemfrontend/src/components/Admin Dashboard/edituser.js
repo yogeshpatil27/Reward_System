@@ -1,6 +1,6 @@
 
 import styled from 'styled-components';
-import { Form, Button, Row, Col } from "react-bootstrap"
+import { Form, Button, Row, Col, Container } from "react-bootstrap"
 import { isAuthenticated } from '../../Authen';
 import React, { useState, useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,23 +11,23 @@ import axios from "axios";
 
 const Edituser = (props) => {
   
-const Container= styled.div`
-display : flex;
-align-item:center;
-justify-content-center;
-height:100vh;
-`
+// const Container= styled.div`
+// display : flex;
+// align-item:center;
+// justify-content-center;
+// height:100vh;
+// `
 
-const Wrapper=styled.div`
-max-width:700px;
-width:100%;
-margin:auto;
-display:flex;
-height:60vh;
-background-color:teal;
-justify-content:center;
-align-items:center;
-`
+// const Wrapper=styled.div`
+// max-width:700px;
+// width:100%;
+// margin:auto;
+// display:flex;
+// height:60vh;
+// background-color:teal;
+// justify-content:center;
+// align-items:center;
+// `
 
 const FormButtons=styled.div`
 display:flex;
@@ -50,7 +50,7 @@ const history = useHistory();
 const close=()=>{
     history.push("/EmployeeDetails");
   }
-  
+
   const [ empDetails, setEmployee ] = useState({
     name: "",
     email: "",
@@ -90,15 +90,15 @@ const update = () => {
         })
     } else {
         alert("invlid input")
-    }
-    
+    }   
 }
 
 
     return (
         <>
-       <Container>
-<Wrapper>
+<Container className="SetupForm">
+
+<div className="card-body">
 <Form>
           <Form.Group as={Row} className="mb-2">
             <Form.Label column sm="4">
@@ -180,9 +180,10 @@ const update = () => {
               />
             </Col>
           </Form.Group>
-<FormButtons>
 
-<div className="d-grid gap-2 mb-2">
+
+   <FormButtons>
+       <div className="d-grid gap-2 mb-2">
             <Button className="mb-1" size="lg" variant="dark" onClick={close}>
              Close
             </Button>
@@ -192,14 +193,18 @@ const update = () => {
              Update
             </Button>
           </div>
-        </FormButtons>
+    </FormButtons>
+     
         </Form>
         
-</Wrapper>
-<div>{JSON.stringify(empDetails)}</div>  
-        </Container>
+{/* </Wrapper> */}
 
-        
+{/* <div>{JSON.stringify(empDetails)}</div>   */}
+        {/* </Container> */}
+
+        </div>      
+       
+        </Container>
 <br/>
         
         </>

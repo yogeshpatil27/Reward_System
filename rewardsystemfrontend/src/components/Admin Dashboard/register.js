@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ShowErrorMessage } from "../helper/helper";
 import "./register.css";
@@ -9,46 +9,59 @@ import Validator from "validator";
 import isEmail from "validator/es/lib/isEmail";
 import isEmpty from "validator/es/lib/isEmpty";
 import Admin from "./admin";
-import { isAuthenticated } from '../../Authen';
+import { isAuthenticated } from "../../Authen";
+import styled from "styled-components";
 
 const Register = () => {
+  const FormButtons = styled.div`
+    display: flex;
+    justify-content: space-between;
+  `;
   const history = useHistory();
 
   useEffect(() => {
     if (isAuthenticated() && isAuthenticated().designation === "Admin") {
-        console.log("I am a Admin");
-        history.push('/Register')
-      } else{
-          history.push('/')
-      }
-}, [history])
+      console.log("I am a Admin");
+      history.push("/Register");
+    } else {
+      history.push("/");
+    }
+  }, [history]);
+
+  useEffect(() => {
+    axios.get("http://localhost:9009/manage").then((res) => {
+      setManagerData(res.data);
+      console.log(ManagerList);
+    });
+  }, []);
 
   const [user, setUser] = useState({
     name: "",
     email: "",
     designation: "Manager",
     department: "Development",
+    manager: "",
     password: "",
     errormsg: false,
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser({
-      ...user,
-      [name]: value,
-    });
+  const [ManagerList, setManagerData] = useState([]);
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setUser({
+        ...user,
+        [name]: value,
+      });
+    };
+
+  const close = () => {
+    history.push("/admin");
   };
 
-  const close=()=>{
-    history.push("/admin");
-  }
-
   const register = (evt) => {
-
     evt.preventDefault();
-    console.log(user);
-    const { name, email, designation, department, password } = user;
+    const { name, email, designation, department, manager, password } = user;
 
     if (
       isEmpty(name) ||
@@ -69,7 +82,7 @@ const Register = () => {
       });
       alert("Invalid Email");
     } else {
-      const { name, email, designation, department, password } = user;
+      const { name, email, designation, department, manager, password } = user;
 
       axios.post("http://localhost:9009/employees", user).then((res) => {
         alert(res.data.message);
@@ -117,38 +130,71 @@ const Register = () => {
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
-            <Form.Label column sm="4">Designation</Form.Label>
+            <Form.Label column sm="4">
+              Designation
+            </Form.Label>
             <Col sm="8">
-            <Form.Control
-              as="select"
-              name="designation"
-              value={user.designation}
-              onChange={handleChange}
-            >
-              <option defaultValue value="Manager">
-                Manager
-              </option>
-              <option value="Team Lead">Team Lead</option>
-              <option value="Employee">Employee</option>
-            </Form.Control>
+              <Form.Control
+                as="select"
+                name="designation"
+                value={user.designation}
+                onChange={handleChange}
+              >
+                <option defaultValue value="Manager">
+                  Manager
+                </option>
+                <option value="Team Lead">Team Lead</option>
+                <option value="Employee">Employee</option>
+              </Form.Control>
             </Col>
           </Form.Group>
 
-          <Form.Group as={Row}  className="mb-2">
-            <Form.Label column sm="4">Department</Form.Label>
+          {(user.designation === "Employee" ||
+            user.designation === "Team Lead") && (
+            <>
+              <Form.Group as={Row} className="mb-2">
+                <Form.Label column sm="4">
+                  Manager
+                </Form.Label>
+                <Col sm="8">
+                  <Form.Control
+                    as="select"
+                    onChange={handleChange}
+                    name="manager"
+                  >
+                    <option>Please Select Manager</option>
+                    {ManagerList?.map((ef) => {
+                      return (
+                        <>
+                          <option value={ef._id} key={ef._id}>
+                            {ef.name}
+                          </option>
+                        </>
+                      );
+                    })}
+                  </Form.Control>
+                </Col>
+              </Form.Group>
+            </>
+          )}
+
+          <Form.Group as={Row} className="mb-2">
+            <Form.Label column sm="4">
+              Department
+            </Form.Label>
             <Col sm="8">
-            <Form.Control
-              as="select"
-              name="department"
-              value={user.department}
-              onChange={handleChange}
-            >
-              <option defaultValue value="Development">
-                Development
-              </option>
-              <option value="Quality Assurance">Quality Assurance</option>
-              <option value="Digital Assurance">Digital Assurance</option>
-            </Form.Control>
+              <Form.Control
+                as="select"
+                name="department"
+                value={user.department}
+                onChange={handleChange}
+              >
+                <option defaultValue value="Development">
+                  Development
+                </option>
+                <option value="Quality Assurance">Quality Assurance</option>
+                <option value="Digital Assurance">Digital Assurance</option>
+              </Form.Control>
             </Col>
           </Form.Group>
 
@@ -170,17 +216,23 @@ const Register = () => {
               />
             </Col>
           </Form.Group>
-
-          <div className="d-grid gap-2 mb-2">
-            <Button size="lg" variant="outline-success" onClick={register}>
-              Submit
-            </Button>
-          </div>
-          <div className="d-grid gap-2 mb-2">
-            <Button className="mb-2" size="lg" variant="outline-fail" onClick={close}>
-             Close
-            </Button>
-          </div>
+          <FormButtons>
+            <div className="d-grid gap-2 mb-2">
+              <Button className="mb-1" size="lg" variant="dark" onClick={close}>
+                Close
+              </Button>
+            </div>
+            <div className="d-grid gap-2 mb-2">
+              <Button
+                className="mb-1"
+                size="lg"
+                variant="success"
+                onClick={register}
+              >
+                Register
+              </Button>
+            </div>
+          </FormButtons>
         </Form>
       </Container>
 

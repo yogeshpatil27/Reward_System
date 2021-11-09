@@ -7,8 +7,10 @@ import jwt from "JsonWebToken";
 import { jwtSecret, jwtExpire } from "./config/dev.js";
 import dotenv from 'dotenv'
 import employeesRoutes from './routes/employees.js'
+import nominationsRoutes from './routes/nominations.js'
 import bodyParser from 'body-parser';
 
+const Schema=mongoose.Schema;
 
 const app = express();
 
@@ -52,6 +54,10 @@ const employee1 = new mongoose.Schema({
   },
   designation: String,
   department: String,
+  manager:{
+    type: Schema.Types.ObjectId,
+    ref:'Employee',
+        },
   password: String,
 });
 
@@ -90,6 +96,35 @@ const employee1 = new mongoose.Schema({
 //     }
 //   });
 // });
+app.get("/manage",async (req, res)=>{
+  const ManagerList = await Employee.find({'designation': 'Manager'},{name:1});
+  try {
+    if (!ManagerList) {
+      res.send({ message: "No Manager Exist Yet" });}
+   else {
+   res.send(ManagerList);
+  }}
+  catch(err){
+    console.log("Mangers in err: ", err);
+    res.send({ message: "Mangers Server Error " });
+  }
+});
+
+
+// app.get("/mangersDetails/:id", async(req,res)=>{
+//   Employee.find({manager?._id : req.params.id}).populate("manager").exec((err,result)=>{
+//     if(err){
+//       res.send("error for manager details");
+//     }
+//     else{
+//       res.send(result);
+//     }
+//   })
+// })
+
+
+
+
 
   //get all emp list
   app.post("/login", async (req, res) => {
@@ -131,5 +166,6 @@ const employee1 = new mongoose.Schema({
 
 app.use("/employees",employeesRoutes);
 
+app.use("/nominations", nominationsRoutes);
 
 export default Employee

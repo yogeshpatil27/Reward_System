@@ -11,7 +11,12 @@ const employees = new mongoose.Schema({
       unique: true,
     },
     designation: String,
-    department: String,
+
+    department: String,   
+    manager:{
+      type: Schema.Types.ObjectId,
+      ref:'employees',
+          },
     password: String,
   });
 

@@ -8,9 +8,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { isAuthenticated } from "../../Authen";
 import styled from 'styled-components';
 import Register from "../Admin Dashboard/register";
+import Winners from "../winnersList/winners";
+import { getLocalStorage } from "../../localstorage";
 
 const AdminHeader = () => {
 
+  const loggeduser = getLocalStorage("user");
 
 const Container = styled.div`
 height: 60px;
@@ -33,9 +36,14 @@ flex:1;
 display:flex;
 justify-content:flex-start;
 `
-const AppName=styled.div`
+const AppName=styled.button`
 font-weight:bold;
 font-size:18px;
+margin-left:15px;
+cursor: pointer;
+border:none;
+background-color:teal;
+color:white;
 `
 
 const RegisterempLink=styled.button`
@@ -53,9 +61,24 @@ cursor: pointer;
 background-color:teal;
 color:white;`
 
+
+const WinnersList=styled.div`
+margin-left:15px;
+border:none;
+cursor: pointer;
+background-color:teal;
+color:white;`
+
 const Right=styled.div`
-flex:1
-justify-content:end
+flex:1;
+justify-content:end;
+display:flex;
+`
+const UserName=styled.div`
+margin-right:70px;
+border:none;
+background-color:teal;
+color:white
 `
 
 const LogoutButton=styled.button`
@@ -67,6 +90,8 @@ cursor: pointer;
 background-color:teal;
 color:white;
 `
+
+
 
 
   const history = useHistory();
@@ -85,26 +110,30 @@ color:white;
 <Container>
             <Wrapper>
               <Left>
-                <AppName>Award System</AppName>
+                <AppName onClick={()=>{ history.push("/Admin")}}>Award System</AppName>
                 <RegisterempLink onClick={()=>{  history.push("/Register")}}>Register Employee</RegisterempLink>
                 <EmployeeDetails onClick={()=>{  history.push("/EmployeeDetails")}}>Employee Details</EmployeeDetails>
+                <WinnersList onClick={()=>{  history.push("/winners")}}>Winners List</WinnersList>
               </Left>
               <Right>
+              <UserName>Welcome  {loggeduser.name}</UserName>
               <LogoutButton onClick={HandleLogout}>Logout</LogoutButton>
           </Right>
             </Wrapper>
         </Container>
-
 )}
 
 {isAuthenticated() && isAuthenticated().designation === "Manager" && (
 <Container>
             <Wrapper>
               <Left>
-                <AppName>Award System</AppName>
-                <EmployeeDetails>Employee Details</EmployeeDetails>
+                <AppName onClick={()=>{ history.push("/Manager")}}>Award System</AppName>
+                <EmployeeDetails onClick={()=>{  history.push("/ManagersEmpDetails")}}>Employee Details</EmployeeDetails>
+                <WinnersList onClick={()=>{  history.push("/winners")}}>Winners List</WinnersList>
+
               </Left>
               <Right>
+              <UserName>Welcome  {loggeduser.name}</UserName>
               <LogoutButton onClick={HandleLogout}>Logout</LogoutButton>
           </Right>
             </Wrapper>
@@ -114,13 +143,16 @@ color:white;
 
 
 
-{isAuthenticated() && (isAuthenticated().designation === "Employee"|| isAuthenticated().designation === "Team Lead") && (
+{
+isAuthenticated() && isAuthenticated().designation === "Employee" && (
 <Container>
             <Wrapper>
               <Left>
-                <AppName>Award System</AppName>
+                <AppName onClick={()=>{history.push("/Employees")}}>Award System</AppName>
+                <WinnersList onClick={()=>{history.push("/winners")}}>Winners List</WinnersList>
               </Left>
               <Right>
+              <UserName>Welcome  {loggeduser.name}</UserName>
               <LogoutButton onClick={HandleLogout}>Logout</LogoutButton>
           </Right>
             </Wrapper>
@@ -128,78 +160,22 @@ color:white;
 
 )}
 
+{isAuthenticated() && isAuthenticated().designation ==="Team Lead" && (
+<Container>
+            <Wrapper>
+              <Left>
+                <AppName onClick={()=>{history.push("/Employees")}}>Award System</AppName>
+                <WinnersList onClick={()=>{history.push("/winners")}}>Winners List</WinnersList>
+              </Left>
+              <Right>
+              <UserName>Welcome  {loggeduser.name}</UserName>
+              <LogoutButton onClick={HandleLogout}>Logout</LogoutButton>
+          </Right>
+            </Wrapper>
+        </Container>
 
+)}
 
-
-
-
-
-{/* <Navbar bg="dark" variant="dark">
-            <Container>
-              <Navbar.Brand href="#home">Admin</Navbar.Brand>
-              <Nav className="me-auto">
-                <Nav.Link href="#home">News Feed</Nav.Link>
-                <Nav.Link href="/Register">Register Employee</Nav.Link>
-              </Nav>
-              <Button variant="dark" onClick={HandleLogout}>
-                Logout
-              </Button>
-            </Container>
-          </Navbar> */}
-
-
-
-      {/* {isAuthenticated() && isAuthenticated().designation === "Admin" && (
-        <div className="Adminhead">
-          <Navbar bg="dark" variant="dark">
-            <Container>
-              <Navbar.Brand href="#home">Admin</Navbar.Brand>
-              <Nav className="me-auto">
-                <Nav.Link href="/Admin">News Feed</Nav.Link>
-                <Nav.Link href="/Register">Register Employee</Nav.Link>
-                <Nav.Link href="/EmployeeDetails">Employee Details</Nav.Link>
-              </Nav>
-              <Button onClick={HandleLogout}>
-                Logout
-              </Button>
-            </Container>
-          </Navbar>
-        </div>
-      )} */}
-{/* 
-      {isAuthenticated() && isAuthenticated().designation === "Manager" && (
-        <div className="Adminhead">
-          <Navbar bg="dark" variant="dark">
-            <Container>
-              <Navbar.Brand href="#home">Manager</Navbar.Brand>
-              <Nav className="me-auto">
-                <Nav.Link href="/Manager">News Feed</Nav.Link>
-                <Nav.Link href="">Nominate Employee</Nav.Link>
-              </Nav>
-              <Button variant="dark" onClick={HandleLogout}>
-                Logout
-              </Button>
-            </Container>
-          </Navbar>
-        </div>
-      )}
-
-      {isAuthenticated() && (isAuthenticated().designation === "Employee"|| isAuthenticated().designation === "Team Lead") && (
-        <div className="Adminhead">
-          <Navbar bg="dark" variant="dark">
-            <Container>
-              <Navbar.Brand href="#home">Employee</Navbar.Brand>
-              <Nav className="me-auto">
-                <Nav.Link href="/Employee">News Feed</Nav.Link>
-                <Nav.Link href=""></Nav.Link>
-              </Nav>
-              <Button variant="dark" onClick={HandleLogout}>
-                Logout
-              </Button>
-            </Container>
-          </Navbar>
-        </div>
-      )} */}
 
     </>
   );

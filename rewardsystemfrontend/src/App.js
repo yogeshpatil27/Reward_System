@@ -10,7 +10,9 @@ import Employee from "./components/All Employee Dashboard/Employee";
 import PageNotFound from "./components/PageNotFount/PageNotFound";
 import EmployeeDetails from "./components/Admin Dashboard/EmployeeDetails";
 import Edituser from "./components/Admin Dashboard/edituser";
-
+import Winners from "./components/winnersList/winners";
+import ManagerEmpDetails from "./components/Manager Dashboard/managerEmpDetails";
+import NominateForm from "./components/Manager Dashboard/NominateForm";
 
 function App() {
   return (
@@ -24,7 +26,12 @@ function App() {
             <Route path="/Manager" component={Manager} />
             <Route path="/Employee" component={Employee} />
             <Route path="/EmployeeDetails" component={EmployeeDetails} />  
-            <Route path="/edit/:id" component={Edituser} />           
+            <Route path="/edit/:id" component={Edituser} />
+            <Route path="/winners" component={Winners} />      
+            <Route path="/ManagersEmpDetails" component={ManagerEmpDetails} /> 
+
+            <Route path="/NominateForm/:id" component={NominateForm} />
+               
             <Route component={PageNotFound} />
           </Switch>
         </Router>
