@@ -13,6 +13,7 @@ import Edituser from "./components/Admin Dashboard/edituser";
 import Winners from "./components/winnersList/winners";
 import ManagerEmpDetails from "./components/Manager Dashboard/managerEmpDetails";
 import NominateForm from "./components/Manager Dashboard/NominateForm";
+import WinnerForm from "./components/Admin Dashboard/WinnerForm";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
             <Route path="/edit/:id" component={Edituser} />
             <Route path="/winners" component={Winners} />      
             <Route path="/ManagersEmpDetails" component={ManagerEmpDetails} /> 
-
+            <Route path="/WinnerForm" component={WinnerForm} />
             <Route path="/NominateForm/:id" component={NominateForm} />
                
             <Route component={PageNotFound} />

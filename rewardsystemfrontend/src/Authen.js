@@ -3,9 +3,11 @@ import { setCookies,getCookie,deleteCookie } from "./cookies";
 
 
 export const setAuthentification = (token, user) => {
-    setCookies("token", token);
-    setLocalStorage("user", user);
-    console.log(user);
+
+ // console.log("Checking authentification ", token, user)
+  token && setCookies("token", token);  
+  user && setLocalStorage("user", user);
+  
   };
 
  export const isAuthenticated = () => {

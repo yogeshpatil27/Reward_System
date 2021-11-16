@@ -41,20 +41,7 @@ router.get("/mangersDetails/:id", async (req, res) => {
     });
 });
 
-
-//get data for Nominate form
-router.get("/NominateForm/:id", async(req, res)=>{})
-
-
-//   Employee.find({manager:req.params.id}, (err, result)=>{
-//   if (err) {
-//     res.send(err);
-//   }
-//   res.send(result);
-// })
-//   })
-
-//
+//Edit employee
 router.put("/", async (req, res) => {
   const user = req.body;
   const editUser = new Employee(user);

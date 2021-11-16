@@ -129,12 +129,21 @@ app.get("/manage",async (req, res)=>{
   //get all emp list
   app.post("/login", async (req, res) => {
     const { email, password } = req.body;
-    const user = await Employee.findOne({ email:email });
-    const isMatch = await bcrypt.compare(password, user.password);
+    const user = await Employee.findOne({ email });
+    let isMatch;
+    if(user){
+       isMatch = await bcrypt.compare(password, user.password);
+    }
+    else{
+      isMatch=false;
+    }
+ 
     try {
       if (!user) {
-        res.send({ message: "Email not registered" });
+      //  console.log("This is in if response", user);
+        res.send({message: "Email not registered" });
       } else if (!isMatch) {
+     //   console.log("This is in else if response", user);
         res.send({ message: "Wrong Password" });
       } else {
         const payload = {

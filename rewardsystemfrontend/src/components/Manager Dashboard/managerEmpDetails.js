@@ -11,15 +11,17 @@ const ManagerEmpDetails = () => {
 
   const [managerEmp, setManagerEmp] = useState([]);
 
-  useEffect(async () => {
-    const loggeduser = getLocalStorage("user");
-    const res = await axios.get(
-      `http://localhost:9009/employees/mangersDetails/${loggeduser._id}`
-    );
-    setManagerEmp(res.data);
+  useEffect(() => {
+    setManagersDetails();
   }, []);
 
-
+const setManagersDetails =async()=>{
+  const loggeduser = getLocalStorage("user");
+  const res = await axios.get(
+    `http://localhost:9009/employees/mangersDetails/${loggeduser._id}`
+  );
+  setManagerEmp(res.data);
+}
 
   return (
     <>

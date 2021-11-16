@@ -130,7 +130,6 @@ color:white;
                 <AppName onClick={()=>{ history.push("/Manager")}}>Award System</AppName>
                 <EmployeeDetails onClick={()=>{  history.push("/ManagersEmpDetails")}}>Employee Details</EmployeeDetails>
                 <WinnersList onClick={()=>{  history.push("/winners")}}>Winners List</WinnersList>
-
               </Left>
               <Right>
               <UserName>Welcome  {loggeduser.name}</UserName>
@@ -144,11 +143,11 @@ color:white;
 
 
 {
-isAuthenticated() && isAuthenticated().designation === "Employee" && (
+isAuthenticated() && (isAuthenticated().designation === "Employee"||isAuthenticated().designation ==="Team Lead") && (
 <Container>
             <Wrapper>
               <Left>
-                <AppName onClick={()=>{history.push("/Employees")}}>Award System</AppName>
+                <AppName onClick={()=>{history.push("/Employee")}}>Award System</AppName>
                 <WinnersList onClick={()=>{history.push("/winners")}}>Winners List</WinnersList>
               </Left>
               <Right>
@@ -160,21 +159,6 @@ isAuthenticated() && isAuthenticated().designation === "Employee" && (
 
 )}
 
-{isAuthenticated() && isAuthenticated().designation ==="Team Lead" && (
-<Container>
-            <Wrapper>
-              <Left>
-                <AppName onClick={()=>{history.push("/Employees")}}>Award System</AppName>
-                <WinnersList onClick={()=>{history.push("/winners")}}>Winners List</WinnersList>
-              </Left>
-              <Right>
-              <UserName>Welcome  {loggeduser.name}</UserName>
-              <LogoutButton onClick={HandleLogout}>Logout</LogoutButton>
-          </Right>
-            </Wrapper>
-        </Container>
-
-)}
 
 
     </>

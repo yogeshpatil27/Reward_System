@@ -1,70 +1,206 @@
 import React from "react";
 import "./feeds.css";
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { isAuthenticated } from "../../Authen";
+import { useHistory } from "react-router";
 
 const Feeds = (props) => {
+const [getFeeds, setFeeds] = useState([]);
+const history = useHistory();
+//  const [like,setLike]=useState([])
 
+  useEffect(async () => {
+    refreshLikes();
+  }, []);
+  
+  const refreshLikes=async()=>{
+    const allFeed = await axios.get(`http://localhost:9009/nominations`);
+    if (!allFeed) {
+      alert("No data in feed");
+    }
+    else {
+      setFeeds(allFeed.data);
+    }
+  }
+  const likeButton=async(id)=>{
+  const like = (isAuthenticated()._id);
+       await axios.put("http://localhost:9009/nominations/"+id, {like}).then((res)=>{
+        refreshLikes();
+      })
+     
+  }
 
-    const [getFeeds, setFeeds]=useState([]);
-
-    useEffect(async()=>{
-        const allFeed = await axios.get(`http://localhost:9009/nominations`)
-       if(!allFeed){
-           alert("No data in feed");
-       }
-      else{
-        setFeeds(allFeed.data);
-    
-      } 
-          //  console.log(allFeed.data);
-    },[])
-   
+  const dislikeButton=async(id)=>{
+    const dislike = (isAuthenticated()._id);
+         await axios.put("http://localhost:9009/nominations/dislike/"+id, {dislike}).then((res)=>{
+          refreshLikes();
+            
+        })
+      
+    }
 
   return (
-    
-    
     <>
-    {
-getFeeds.map((e,index)=>{
-return(
-    <div class="card" key={e._id}>
-    <div class="container">
-      <h4>
-       <h5><b>{e.fullName}</b> has been nominated for Employee of the month award by his manager <b>{e.nominatedBy}</b> for Department {e.department}</h5> 
-      <br/>
-       <h5>Criterias he has satisfied are {e.criteria} </h5>
-       <br/>
-      <h5> {e.fullName}'s manager has praised as {e.praise}</h5>
-       <br/>
+{/*Employee and Team Lead Feed */}
+{isAuthenticated() && (isAuthenticated().designation === "Employee"||isAuthenticated().designation === "Team Lead") && (
+ getFeeds.slice(0).reverse().map((e, index) => {
+        return (
+          <div className="card" key={e._id}>
+            <div className="container">
+              <div>
+                <h5>
+                  <b>{e.fullName}</b> has been nominated for Employee of the
+                  month award by his manager <b>{e.nominatedBy}</b> for
+                  Department {e.department}
+                </h5>
+                <br />
+                <h5>Criterias he has satisfied are {e.criteria.join(', ')} </h5>
+                <br />
+                <h5>
+                  {e.fullName}'s manager has praised as {e.praise}
+                </h5>
+                <br />
+              </div>
+              
+              <div className="buttons">
+                <button className="likeButton" disabled={(e.likes.includes(isAuthenticated()._id)?true:false)} onClick={()=>{
+                  likeButton(e._id)
+                }}>
+                  <span className="icon">
+                    <ion-icon name="happy"></ion-icon>
+                  </span>
+                  <span className="buttonheading"> Likes </span>
+                </button>
+
+                <button className="likeButton" disabled={(e.dislikes.includes(isAuthenticated()._id)?true:false)} onClick={()=>{
+                  dislikeButton(e._id)
+                }} >
+                  <span className="icon">
+                    <ion-icon name="heart-dislike"></ion-icon>
+                  </span>
+                  <span className="buttonheading">Dislike</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })
+)}
 
 
-      </h4>
-  
 
-      <div className="buttons">
-        <button className="likeButton">
-          <span className="icon">
-            <ion-icon name="happy"></ion-icon>
-          </span>
-          <span className="buttonheading">Like</span>
-        </button>
 
-        <button className="likeButton">
-          <span className="icon">
-            {" "}
-            <ion-icon name="heart-dislike"></ion-icon>
-          </span>
-          <span className="buttonheading">Dislike</span>
-        </button>
-      </div>
-    </div>
-  </div>
 
-)
-})
 
-    }
+{isAuthenticated() && isAuthenticated().designation === "Admin" && (
+ getFeeds.slice(0).reverse().map((e, index) => {
+        return (
+          <div className="card" key={e._id}>
+            <div className="container">
+              <div>
+                <h5>
+                  <b>{e.fullName}</b> has been nominated for Employee of the
+                  month award by his manager <b>{e.nominatedBy}</b> for
+                  Department {e.department}
+                </h5>
+                <br />
+                <h5>Criterias he has satisfied are  {e.criteria}</h5>
+                <br />
+                <h5>
+                 
+                  {e.fullName}'s manager has praised as {e.praise}
+                </h5>
+                <br />
+              </div>
+
+              <div className="buttons">
+                <button className="likeButton">
+                  <span className="icon">
+                    <ion-icon name="happy"></ion-icon>
+                  </span>
+                  <span className="buttonheading">{e.likes.length} Likes</span>
+                  
+                </button>
+
+                <button className="likeButton">
+                  <span className="icon">
+                  
+                    <ion-icon name="heart-dislike"></ion-icon>
+                  </span>
+                  <span className="buttonheading">{e.dislikes.length} Dislikes</span>
+                  
+                </button>
+
+                <button className="likeButton">
+                  <span className="icon">
+                  <ion-icon name="megaphone"></ion-icon>
+                  </span>
+                  <span className="buttonheading" onClick={()=>{ history.push('/WinnerForm')}}>Winner for this month</span>
+                
+                </button>
+                
+              </div>
+            </div>
+          </div>
+        );
+      })
+)}
+
+
+{/*Managers Feed */}
+{isAuthenticated() && isAuthenticated().designation === "Manager" && (
+ getFeeds.slice(0).reverse().map((e, index) => {
+        return (
+          <div className="card" key={e._id}>
+            <div className="container">
+              <div>
+                <h5>
+                  <b>{e.fullName}</b> has been nominated for Employee of the
+                  month award by his manager <b>{e.nominatedBy}</b> for
+                  Department {e.department}
+                </h5>
+                <br />
+                <h5>Criterias he has satisfied are {e.criteria} </h5>
+                <br />
+                <h5>
+                
+                  {e.fullName}'s manager has praised as {e.praise}
+                </h5>
+                <br />
+              </div>
+
+              <div className="buttons">
+                <button className="likeButton" disabled={(e.likes.includes(isAuthenticated()._id)?true:false)} onClick={()=>{
+                  likeButton(e._id)
+                }}>
+                  <span className="icon">
+                    <ion-icon name="happy"></ion-icon>
+                  </span>
+                  <span className="buttonheading" >Like</span>
+                </button>
+
+                <button className="likeButton" disabled={(e.dislikes.includes(isAuthenticated()._id)?true:false)} onClick={()=>{
+                  dislikeButton(e._id)
+                }}>
+                  <span className="icon">
+                  
+                    <ion-icon name="heart-dislike"></ion-icon>
+                  </span>
+                  <span className="buttonheading">Dislike</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })
+)}
+
+
+
+
+
+
 
     </>
   );

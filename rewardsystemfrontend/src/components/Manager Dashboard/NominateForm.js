@@ -7,10 +7,6 @@ import styled from "styled-components";
 import "../Admin Dashboard/register.css";
 import axios from "axios";
 import { getLocalStorage } from "../../localstorage";
-//import Select from '@material-ui/core/Select';
-//import MenuText from '@material-ui/core/MenuText';
-//import { Select as  MenuItem,  } from '@material-ui/core';
-//import Select from 'react-select'
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -71,41 +67,6 @@ const NominateForm = (props) => {
     praise: praises,
   };
 
-  // const validate = (fieldValues = values) => {
-  //     let temp = { ...errors }
-  //     if ('fullName' in fieldValues)
-  //         temp.fullName = fieldValues.fullName !== 0 ? "" : "This field is required."
-  //     if ('designation' in fieldValues)
-  //         temp.designation = fieldValues.designation !== 0 ? "" : "This field is required."
-  //     if ('nominatedBy' in fieldValues)
-  //         temp.nominatedBy = fieldValues.nominatedBy ? "" : "This field is required."
-  //     if ('criteria' in fieldValues)
-  //         temp.criteria = fieldValues.criteria !==0  ? "" : "This field is required."
-  //     if ('department' in fieldValues)
-  //         temp.department = fieldValues.department !== 0 ? "" : "This field is required."
-  //         if('praise' in fieldValues)
-  //         temp.praise = fieldValues.praise.length !== 0 ? "" : "This field is required."
-  //     setErrors({
-  //         ...temp
-  //     })
-
-  //     if (fieldValues === values)
-  //         return Object.values(temp).every(x => x === "")
-  // }
-
-  //   var SelectHandle=(e)=>{
-  //     setSelected=(Array.isArray(e)?e.map(x=>x.value):[]);
-  //    console.log (JSON.stringify(selected));
-  //     }
-
-  // const {
-  //     values,
-  //     // setValues,
-  //     errors,
-  //     setErrors,
-  //     handleInputChange,
-  //     // resetForm
-  // } = useForm(initialFValues, true, validate);
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -150,19 +111,7 @@ const NominateForm = (props) => {
                 onChange={handleInputChange}
                 // error={errors.nominatedBy}
               />
-              {/* <Controls.Select
-                    name="criteria"
-                    label="Criteria" 
-                    Multiple   
-                    options={[
-                        { id: '1', title: 'Client appreciation' },
-                        { id: '2', title: 'Team Player' },
-                        { id: '3', title: 'Timely leaves' },
-                        { id: '4', title: 'Added work to company' },
-                        { id: '5', title: 'Asset for company' }
-                    ]}
-                    error={errors.criteria}
-                />  */}
+          
 
               <FormControl>
                 <InputLabel id="demo-mutiple-name-label">
@@ -233,9 +182,9 @@ const NominateForm = (props) => {
           </Grid>
         </Form>
       </Container>
-      <div>
+      {/* <div>
         <p>{JSON.stringify(CriteriaSelected)}</p>
-      </div>
+      </div> */}
     </>
   );
 };
