@@ -4,6 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { isAuthenticated } from "../../Authen";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
+
 
 const Feeds = (props) => {
 const [getFeeds, setFeeds] = useState([]);
@@ -89,10 +91,6 @@ const history = useHistory();
 )}
 
 
-
-
-
-
 {isAuthenticated() && isAuthenticated().designation === "Admin" && (
  getFeeds.slice(0).reverse().map((e, index) => {
         return (
@@ -125,7 +123,6 @@ const history = useHistory();
 
                 <button className="likeButton">
                   <span className="icon">
-                  
                     <ion-icon name="heart-dislike"></ion-icon>
                   </span>
                   <span className="buttonheading">{e.dislikes.length} Dislikes</span>
@@ -136,10 +133,12 @@ const history = useHistory();
                   <span className="icon">
                   <ion-icon name="megaphone"></ion-icon>
                   </span>
-                  <span className="buttonheading" onClick={()=>{ history.push('/WinnerForm')}}>Winner for this month</span>
-                
+                  <span className="buttonheading" 
+                   onClick={() => history.push(`/WinnerForm/${e._id}`)}
+                   component={Link}
+                   to={`/WinnerForm/${e._id}`}>Winner for this month</span>
                 </button>
-                
+                {/* onClick={()=>{history.push('/WinnerForm')}} */}
               </div>
             </div>
           </div>

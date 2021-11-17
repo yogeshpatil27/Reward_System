@@ -9,7 +9,7 @@ import dotenv from 'dotenv'
 import employeesRoutes from './routes/employees.js'
 import nominationsRoutes from './routes/nominations.js'
 import bodyParser from 'body-parser';
-
+import winnersRoutes from './routes/winners.js'
 const Schema=mongoose.Schema;
 
 const app = express();
@@ -176,5 +176,7 @@ app.get("/manage",async (req, res)=>{
 app.use("/employees",employeesRoutes);
 
 app.use("/nominations", nominationsRoutes);
+
+app.use("/winners", winnersRoutes);
 
 export default Employee

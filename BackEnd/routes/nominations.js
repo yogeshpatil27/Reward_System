@@ -98,15 +98,14 @@ try {
 
 
 //get nominations by ids
-// router.get('/:id', async(req,res)=>{
-//   try {
-//     const emp = await Nominated.find({ _id: req.params.id});
-//       res.json(emp);
-//     res.send(emp);
-//   } catch (err) {
-//     res.send(err);
-//   }
+router.get('/:id', async(req,res)=>{
+  Nominated.find({ _id: req.params.id }, (err, result) => {
+    if (err) {
+      res.send(err);
+    }
+    res.send(result);
+  });
 
-// })
+})
 
 export default router;

@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//Get Employee by ID
+//Get Employee by ID to for nominate form
 router.get("/:id", async (req, res) => {
   Employee.find({ _id: req.params.id }, (err, result) => {
     if (err) {
@@ -28,7 +28,7 @@ router.get("/:id", async (req, res) => {
 });
 
 
-// Get employee for managers ID
+// Get employee for managers ID to set Employees Manager
 router.get("/mangersDetails/:id", async (req, res) => {
   Employee.find({ manager: req.params.id })
     .populate("manager")

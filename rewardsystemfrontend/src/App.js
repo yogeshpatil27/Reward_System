@@ -30,7 +30,7 @@ function App() {
             <Route path="/edit/:id" component={Edituser} />
             <Route path="/winners" component={Winners} />      
             <Route path="/ManagersEmpDetails" component={ManagerEmpDetails} /> 
-            <Route path="/WinnerForm" component={WinnerForm} />
+            <Route path="/WinnerForm/:id" component={WinnerForm} />
             <Route path="/NominateForm/:id" component={NominateForm} />
                
             <Route component={PageNotFound} />
