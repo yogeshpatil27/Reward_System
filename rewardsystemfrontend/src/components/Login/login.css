@@ -1,14 +1,13 @@
 .setupLogin {
-     /* background-color:#ffc8fa;  */
+     background-color:#ffc8fa;  
      background-image: linear-gradient(to bottom right, #acb6e5,#86fde8);
-     /* background: url("../assets/award2.jpg") no-repeat center center/cover; */
     min-height: 100vh;
     display:flex;
     flex-direction:center;
     align-items: center;
     justify-content: center;
     text-align: center;
-    /* color:rgb(0, 0, 0); */
+   
     
   }
 
