@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import AdminHeader from '../Header/AdminHeader'
 
 import { Table, Container, Button } from "react-bootstrap";
+import moment from 'moment';
 const Winners = () => {
 
     const [winnerDetails, setWinnersDetails]=useState([]);
@@ -46,7 +47,7 @@ setWinnersDetails(res.data);
                     <td scope="row">{e.designation}</td>
                     <td scope="row">{e.nominatedBy}</td>
                     <td scope="row">{e.department}</td>
-                    <td scope="row">{e.Months}</td>
+                    <td scope="row">{moment(e.Months).format("MMMM YYYY")}</td>
                   </tr>
                 );
               })}
@@ -59,4 +60,5 @@ setWinnersDetails(res.data);
     )
 }
 
-export default Winners
+export default Winners 
+

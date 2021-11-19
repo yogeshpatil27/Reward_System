@@ -17,6 +17,8 @@ import isEmpty from "validator/es/lib/isEmpty";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import "date-fns";
+import moment from 'moment';
+
 
 const WinnerForm = (props) => {
   const history = useHistory();
@@ -24,18 +26,16 @@ const WinnerForm = (props) => {
   const [Month, setAwardMonth] = useState([]);
   const [getNonimations, setNominations] = useState({});
   const [values, setValues] = useState();
-
+  //const [winnerDetails, setWinnersDetails]=useState([]);
   const currentDate = new Date();
   const [selectedDate, setSelectedDate] =
-    (useState (new Date().toLocaleDateString("en-US")));
+    (useState (moment()));
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
-  const handleChange = (event) => {
-    setAwardMonth(event.target.value);
-  };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,15 +47,37 @@ const WinnerForm = (props) => {
 
   useEffect(() => {
     getNominationsbyID();
+    GetAllwinners();
   }, []);
 
   const getNominationsbyID = async () => {
     await axios.get("http://localhost:9009/nominations/" + id).then((res) => {
-      console.log("res", res);
+     // console.log("res", res);
       setNominations(res?.data?.[0]);
     });
-    console.log("Getting Nomination by ID", getNonimations);
+
+    //console.log("Getting Nomination by ID", getNonimations);
+
   };
+
+  const [winnerDetails, setWinnersDetails]=useState([]);
+
+  const GetAllwinners=async()=>{
+    const res = await axios.get(`http://localhost:9009/winners`); 
+    console.log("This winners data I want to print",res.data); 
+
+    let WinnerMonths=res.data.map(a=>a.Months)
+   let MonthsasString = WinnerMonths.map(a=>moment(a).format("MMMM"))
+   console.log(MonthsasString);
+
+   setWinnersDetails(MonthsasString);
+   //console.log("This winners data I want to print",winnerDetails);
+
+  //  const changedFormat= moment(winnerDetails.Months).month()
+
+  //  console.log("List of winner months", changedFormat);
+  //  console.log("This is array of winners: ", moment(winnerDetails.Months).format("MMMM").includes("November")?"Yes":"No");
+       }
 
   const initialFValues = {
     _id: getNonimations._id,
@@ -80,6 +102,10 @@ const WinnerForm = (props) => {
 //     "November",
 //     "December",
 //   ];
+
+const monthSelector=(date)=>{
+ return date.getMonth()===4;
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -126,37 +152,23 @@ const WinnerForm = (props) => {
                   value={getNonimations.nominatedBy}
                   onChange={handleInputChange}
                 />
-                {/* <FormControl>
-                  <InputLabel id="demo-mutiple-name-label">
-                    Select Month
-                  </InputLabel>
-                  <Select
-                    name="Months"
-                    labelId="demo-mutiple-name-label"
-                    id="demo-mutiple-name"
-                    value={Month}
-                    onChange={handleChange}
-                    input={<Input />}
-                  >
-                    {Months.map((name) => (
-                      <MenuItem key={name} value={name}>
-                        {name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl> */}
-
-                <div>
+            
+              <div>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <Grid container justifyContent="space-around">
                       <DatePicker
                         variant="inline"
                         openTo="year"
+                        inputFormat="MM-yyyy"
                         views={["year", "month"]}
                         label="Year and Month"
+                        disableFuture={true}
                         helperText="Start from year selection"
                         value={selectedDate}
                         onChange={handleDateChange}
+                        minDate={moment('2012-09')}
+                        maxDate={moment()}
+                      
                       />
                     </Grid>
                   </MuiPickersUtilsProvider>

@@ -4,10 +4,16 @@ import { useHistory } from "react-router";
 import { isAuthenticated } from "../../Authen";
 import axios from "axios";
 import { Table, Container, Button } from "react-bootstrap";
-import styled from "styled-components";
+import BootstrapTable, { BootstrapButton } from "react-bootstrap-table-next";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.css";
 import "./EmployeeDetails.css";
 import { Link } from "react-router-dom";
-import { getDropdownMenuPlacement } from "react-bootstrap/esm/DropdownMenu";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
+import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
+import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css";
+import cellEditFactory from "react-bootstrap-table2-editor";
+import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
 const EmployeeDetails = () => {
   const history = useHistory();
@@ -23,20 +29,38 @@ const EmployeeDetails = () => {
 
   const [empDetails, setEmpDetail] = useState([]);
 
-  const getEmp = async () => {
-    try {
-      const res = await axios.get(`http://localhost:9009/employees`);
-      console.log(res.data);
-      setEmpDetail(res.data);
-    } catch (err) {
-      console.log("Error while loading Table");
+  //declaired Edit Buttons
+  const editButton = (cell, row) => {
+    if (row.name) {
+      return (
+        <div style={{ width: "20%", alignItems: "center" }}>
+          <button
+            className="Edit"
+            onClick={() => history.push(`/edit/${row._id}`)}
+            component={Link}
+            to={`/edit/${row._id}`}
+          >
+            Edit
+          </button>
+        </div>
+      );
     }
   };
 
-  useEffect(() => {
-    getEmp();
-  }, []);
+  //Declaired Delete button
+  const DeleteButton = (cell, row) => {
+    if (row.name) {
+      return (
+        <div>
+          <button className="Delete" onClick={() => DeleteEmployee(row._id)}>
+            Delete
+          </button>
+        </div>
+      );
+    }
+  };
 
+  //Delete Employee Fuctions
   const DeleteEmployee = async (id) => {
     try {
       const res = await axios.delete(`http://localhost:9009/employees/${id}`);
@@ -47,55 +71,126 @@ const EmployeeDetails = () => {
     }
   };
 
+
+  const id=(cell, row)=>{
+   let index=1; 
+    return (
+      <div>
+    {index+1}
+      </div>
+    );
+  }
+
+  const columns = [
+    { dataField: "_id", hidden:true},
+    { dataField: "id", text: "ID",formatter: id},
+    { dataField: "name", text: "Name", sort: true },
+    { dataField: "email", text: "Email", sort: true },
+    { dataField: "designation", text: "Designation" },
+    { dataField: "department", text: "Department" },
+    { dataField: "editButton", text: "Edit", formatter: editButton },
+    { dataField: "DeleteButton", text: "Delete", formatter: DeleteButton },
+  ];
+
+  const getEmp = async () => {
+    try {
+      const res = await axios.get(`http://localhost:9009/employees`);
+      //   console.log(res.data);
+      setEmpDetail(res.data);
+    } catch (err) {
+      console.log("Error while loading Table");
+    }
+  };
+
+  useEffect(() => {
+    getEmp();
+  }, []);
+
+  const pagination = paginationFactory({
+    page: 1,
+    sizePerPage: 10,
+    lastPageText: ">>",
+    firstPageText: "<<",
+    nextPageText: ">",
+    prePageText: "<",
+    showTotal: true,
+    alwaysShowAllBtns: true,
+    onPageChange: function (page, sizePerPage) {
+      console.log("page", page);
+    },
+    onSizePerPageChange: function (page, sizePerPage) {
+      console.log("page", page);
+    },
+  });
+
+  //Search Functionloity
+  const [search, setSearch] = useState("");
+
+  const SearchRows = (rows) => {
+    return rows.filter(
+      (row) =>
+        row.name.toLowerCase().indexOf(search) > -1 ||
+        row.email.toLowerCase().indexOf(search) > -1
+    );
+  };
+
   return (
     <>
       <AdminHeader />
+
+      <Container className="p-3 mb-5">
+        <div
+          style={{
+            float: "right",
+            width: "30%",
+            display: "flex",
+            borderRadius: "20px",
+            background: "white",
+            border: "solid 1px",
+            alignItems: "center",
+            marginBottom: 20,
+            padding: 6,
+            borderWidth: "#000",
+          }}
+        >
+          <div style={{ fontSize: "20px" }}>
+            <ion-icon name="search"></ion-icon>{" "}
+          </div>
+          <input
+            style={{
+              flex: 3,
+              height: "40px",
+              border: "none",
+              outline: "none",
+              fontSize: "18px",
+            }}
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+        </div>
+      </Container>
+
       <div>
-        <br />
-        <Container>
-          <Table className="border shadow p-3 mb-5 bg-white rounded">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Designation</th>
-                <th scope="col">Department</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {empDetails?.map((e, index) => {
-                return (
-                  <tr key={e._id}>
-                    <td scope="row">{index + 1}</td>
-                    <td scope="row">{e.name}</td>
-                    <td scope="row">{e.email}</td>
-                    <td scope="row">{e.designation}</td>
-                    <td scope="row">{e.department}</td>
-                    <td>
-                      <button
-                        className="Edit"
-                        onClick={() => history.push(`/edit/${e._id}`)}
-                        component={Link}
-                        to={`/edit/${e._id}`}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="Delete"
-                        onClick={() => DeleteEmployee(e._id)}
-                      >
-                       Active
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
+        <Container className=" shadow p-3 bg-white">
+          <BootstrapTable
+            pagination={pagination}
+           key="_id"
+            bootstrap4
+            className="border shadow p-3 mb-5 bg-white white rounded"
+            keyField="_id"
+            columns={columns}
+            data={SearchRows(empDetails)}
+            striped
+            hover
+            condensed
+          />
         </Container>
       </div>
+      <br />
     </>
   );
 };
