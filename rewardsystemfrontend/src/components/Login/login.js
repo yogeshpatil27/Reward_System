@@ -6,6 +6,8 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import "./login.css";
 import { getCookie, setCookies } from "../../cookies";
 import { getLocalStorage, setLocalStorage } from "../../localstorage";
+import {setAuthentification,isAuthenticated} from "../../Authen"
+
 
 const Login = () => {
   const history = useHistory();
@@ -34,7 +36,7 @@ useEffect(() => {
         console.log("I am a Employee");
         history.push('/Employee')
       }  
-}, [history])
+}, [])
 
 
 
@@ -51,34 +53,33 @@ useEffect(() => {
     });
   };
 
-   const setAuthentification = (token, user) => {
-    setCookies("token", token);
-    setLocalStorage("user", user);
-  };
+  //  const setAuthentification = (token, user) => {
+  //   setCookies("token", token);
+  //   setLocalStorage("user", user);
+  // };
 
-  const isAuthenticated = () => {
-    if (getCookie("token") && getLocalStorage("user")) {
-      return getLocalStorage("user");
-    } else {
-      return false;
-    }
-  };
+  // const isAuthenticated = () => {
+  //   if (getCookie("token") && getLocalStorage("user")) {
+  //     return getLocalStorage("user");
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   const login = async (evt) => {
     evt.preventDefault();
    
     await axios.post("http://localhost:9009/login", user).then((res) => {
          alert(res.data.message);
-        setAuthentification(res.data.token, res.data.user);
+         
+        setAuthentification(res?.data?.token, res?.data?.user);
 
-        if (isAuthenticated() && isAuthenticated().designation === "Admin") {
-         // console.log("I am a Admin");
+        if (isAuthenticated() && isAuthenticated().designation == "Admin") {
           history.push('/admin')
         } else if (
           isAuthenticated() &&
           isAuthenticated().designation === "Manager"
         ) {
-          //console.log("I am a Manager");
           history.push('/Manager')
         } else if (
           isAuthenticated() &&
@@ -103,7 +104,19 @@ useEffect(() => {
   return (
     <div className="setupLogin">
       <Container className="SetupFormLogin">
+        
         <Form>
+        <div>
+        <Col sm="16">
+          <h2
+            className="Manageheader" 
+            variant="dark"
+            size="lg" 
+          >
+          Rewards and Recognition
+          </h2>
+        </Col>
+      </div>
           <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
             <Form.Label column sm="4" variant="secondary">
               Email
@@ -139,7 +152,7 @@ useEffect(() => {
           </Form.Group>
 
           <div>
-            <Col sm="12">
+            <Col sm="16">
               <Button
                 className="Managecontainer"
                 size="lg"
@@ -147,7 +160,7 @@ useEffect(() => {
                 onClick={login}
                 type="submit"
               >
-                Submit
+              Login
               </Button>
             </Col>
           </div>
