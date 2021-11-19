@@ -104,7 +104,19 @@ useEffect(() => {
   return (
     <div className="setupLogin">
       <Container className="SetupFormLogin">
+        
         <Form>
+        <div>
+        <Col sm="16">
+          <h2
+            className="Manageheader" 
+            variant="dark"
+            size="lg" 
+          >
+          Rewards and Recognition
+          </h2>
+        </Col>
+      </div>
           <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
             <Form.Label column sm="4" variant="secondary">
               Email
