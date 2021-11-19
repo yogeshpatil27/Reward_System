@@ -1,29 +1,59 @@
 .setupLogin {
-    background-color:#282c34;
+     /* background-color:#ffc8fa;  */
+     background-image: linear-gradient(to bottom right, #acb6e5,#86fde8);
+     /* background: url("../assets/award2.jpg") no-repeat center center/cover; */
     min-height: 100vh;
     display:flex;
     flex-direction:center;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color:honeydew;
+    /* color:rgb(0, 0, 0); */
+    
   }
 
 .Managecontainer{
-margin-left: 30vh;
-align-items: flex-end;
+  width: 100%;
+    margin: auto;
+    color: black;
+    font-weight: 700;
+    font-size:20px;
+    background-color:#acb6e5 ;
+    border: none;
+    box-shadow: 5px 5px 5px rgb(204, 203, 203);
+/* margin-left: 30vh;
+align-items: flex-end; */
+}
+
+.Managecontainer:hover{
+  box-shadow: 0 8px 10px 0 rgba(0,0,0,0.2);
+  background-color:#879bf3 ;
 }
 
 
+
+
 .SetupFormLogin{
-    background-color:#282c34;
-    width:90vh;
-    height:70vh; 
+    background-color:#fdfdfd;
+    width:70vh;
+    height:80vh; 
     margin-top: 2vh;
    margin: 20,20,20,20;
    text-align: center;
    justify-content: center;
    align-items: center;
    display:flex;
+   border-radius: 10px;
+   box-shadow: 10px 10px 5px rgb(78, 78, 78);
    
   }
+
+  
+
+  /* .login{
+    position: absolute;
+    top: 18%;
+    right: 37%;
+    font-weight: 700;
+    font-family: auto;
+  } */
