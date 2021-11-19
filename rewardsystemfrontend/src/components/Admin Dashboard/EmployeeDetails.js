@@ -33,32 +33,29 @@ const EmployeeDetails = () => {
   const editButton = (cell, row) => {
     if (row.name) {
       return (
-        <div style={{ width: "20%", alignItems: "center" }}>
+        <div style={{ justifyContent:"space-around",alignItems: "center"}}>
           <button
+           style={{ width: "20%", alignItems: "center", outline:"none", border:"none"}}
             className="Edit"
             onClick={() => history.push(`/edit/${row._id}`)}
             component={Link}
             to={`/edit/${row._id}`}
           >
-            Edit
+            <ion-icon name="create"></ion-icon>
           </button>
+         
+          <button  style={{marginLeft:"12px",outline:"none", border:"none"}} className="Delete" onClick={() => DeleteEmployee(row._id)}>
+          <ion-icon name="trash"></ion-icon>
+          </button>
+        
+
+
         </div>
       );
     }
   };
 
-  //Declaired Delete button
-  const DeleteButton = (cell, row) => {
-    if (row.name) {
-      return (
-        <div>
-          <button className="Delete" onClick={() => DeleteEmployee(row._id)}>
-            Delete
-          </button>
-        </div>
-      );
-    }
-  };
+ 
 
   //Delete Employee Fuctions
   const DeleteEmployee = async (id) => {
@@ -72,13 +69,15 @@ const EmployeeDetails = () => {
   };
 
 
-  const id=(cell, row)=>{
-   let index=1; 
-    return (
-      <div>
-    {index+1}
-      </div>
-    );
+
+
+  const id=(cell, row, index)=>{
+ index = index+1;
+   return (
+    <div>
+  {index}
+    </div>
+  );
   }
 
   const columns = [
@@ -89,7 +88,7 @@ const EmployeeDetails = () => {
     { dataField: "designation", text: "Designation" },
     { dataField: "department", text: "Department" },
     { dataField: "editButton", text: "Edit", formatter: editButton },
-    { dataField: "DeleteButton", text: "Delete", formatter: DeleteButton },
+    
   ];
 
   const getEmp = async () => {
