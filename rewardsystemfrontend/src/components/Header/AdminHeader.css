@@ -1,0 +1,16 @@
+*{
+    justify-content: space-between;
+}
+/* 
+.navbar{
+    background-image: linear-gradient(to bottom right, rgb(163 163 249), rgb(241, 97, 241));;
+    height: 500px;
+} */
+
+.header{
+height: 70px;
+border: none;
+align-items:center;
+/* background-image:linear-gradient(to bottom right, rgb(163 163 249), rgb(241, 97, 241)); */
+color:green;
+}
