@@ -103,7 +103,11 @@ useEffect(() => {
 
   return (
     <div className="setupLogin">
+    
       <Container className="SetupFormLogin">
+      <h2>
+      Rewards and Recognition
+      </h2>
         <Form>
           <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
             <Form.Label column sm="4" variant="secondary">

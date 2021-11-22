@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Box from '@mui/material/Box';
+
 import { alpha } from "@material-ui/core/styles";
 import { Grid, Container } from "@material-ui/core";
 import Controls from "../Manager Dashboard/controls/Controls";
@@ -123,11 +125,23 @@ const monthSelector=(date)=>{
   return (
     <div>
       <>
-        <Container className="SetupForm">
+        {/*<Container className="SetupForm">/*/}
           <Form onSubmit={handleSubmit}>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item xs={6}>
+          <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            p: 1,
+            m: 1,
+            bgcolor: 'background.paper',
+            borderRadius:"10px",
+            boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+            width: '50%', 
+            margin:'40px auto',
+          }}
+        >
+        <h1>Declaration Form</h1>
                 <Controls.Input
                   name="fullName"
                   label="Full Name"
@@ -185,11 +199,9 @@ const monthSelector=(date)=>{
                     }}
                   />
                 </div>
-              </Grid>
-              <Grid item xs></Grid>
-            </Grid>
+              </Box>
           </Form>
-        </Container>
+        {/*</Container>*/}
       </>
     </div>
   );

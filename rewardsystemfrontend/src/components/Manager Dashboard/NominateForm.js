@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Box from '@mui/material/Box';
 import { Grid, Container } from "@material-ui/core";
 import Controls from "./controls/Controls";
 import { useForm, Form } from "./useForm";
@@ -85,11 +86,23 @@ const NominateForm = (props) => {
 
   return (
     <>
-      <Container className="SetupForm">
+      {/*<Container className="SetupForm">*/}
         <Form onSubmit={handleSubmit}>
-          <Grid container>
-            <Grid item xs></Grid>
-            <Grid item xs={6}>
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          p: 1,
+          m: 1,
+          bgcolor: 'background.paper',
+          borderRadius:"10px",
+          boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+          width: '50%', 
+          margin:'40px auto',
+        }}
+      >
+      <h1>Nomination Form</h1>
               <Controls.Input
                 name="fullName"
                 label="Full Name"
@@ -177,14 +190,10 @@ const NominateForm = (props) => {
                   }}
                 />
               </div>
-            </Grid>
-            <Grid item xs></Grid>
-          </Grid>
+            </Box>
         </Form>
-      </Container>
-      {/* <div>
-        <p>{JSON.stringify(CriteriaSelected)}</p>
-      </div> */}
+      {/*</Container>*/}
+     
     </>
   );
 };
