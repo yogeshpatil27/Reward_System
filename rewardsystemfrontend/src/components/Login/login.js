@@ -103,22 +103,19 @@ useEffect(() => {
 
   return (
     <div className="setupLogin">
+    
       <Container className="SetupFormLogin">
+      <h2>
+      Rewards and Recognition
+      </h2>
         
         <Form>
-        <div>
-        <Col sm="16">
-          <h2
-            className="Manageheader" 
-            variant="dark"
-            size="lg" 
-          >
-          Rewards and Recognition
-          </h2>
-        </Col>
-      </div>
+        
+         
+       
+       
           <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-            <Form.Label column sm="4" variant="secondary">
+            <Form.Label column sm="4" variant="secondary" >
               Email
             </Form.Label>
             <Col sm="8">
@@ -138,7 +135,7 @@ useEffect(() => {
             controlId="formPlaintextPassword"
           >
             <Form.Label column sm="4">
-              Password
+              Password 
             </Form.Label>
             <Col sm="8">
               <Form.Control
@@ -156,7 +153,7 @@ useEffect(() => {
               <Button
                 className="Managecontainer"
                 size="lg"
-                variant="dark"
+               
                 onClick={login}
                 type="submit"
               >

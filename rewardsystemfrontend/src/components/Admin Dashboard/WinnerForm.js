@@ -1,22 +1,34 @@
-import React,{useState} from 'react'
+import  React,{useState}  from 'react';
+import Box from '@mui/material/Box';
 
-import { Grid, Container } from "@material-ui/core";
+// import { makeStyles, CssBaseline, createMuiTheme, ThemeProvider } from '@material-ui/core';
+// import { Grid, Container } from "@material-ui/core";
 import Controls from "../Manager Dashboard/controls/Controls";
 import { useForm, Form } from "../Manager Dashboard/useForm";
 import { useHistory, useParams } from "react-router-dom";
-import styled from "styled-components";
+// import styled from "styled-components";
 import "../Admin Dashboard/register.css";
-import axios from "axios";
-import { getLocalStorage } from "../../localstorage";
+// import axios from "axios";
+// import { getLocalStorage } from "../../localstorage";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+// import "./WinnerForm.css";
 import isEmpty from "validator/es/lib/isEmpty";
 
+
+
+
 const WinnerForm = () => {
-    const history = useHistory();
+
+
+
+
+
+  
+  const history = useHistory();
 
 
     const [Month, setAwardMonth] = useState([]);
@@ -26,19 +38,33 @@ const WinnerForm = () => {
       };
     const Months = [ "January","February","March", "April", "May","June","July","August","September","October","November","December"];
     return (
-        <div>
+        
            <>
-      <Container className="SetupForm">
+      
         <Form >
-          <Grid container>
-            <Grid item xs></Grid>
-            <Grid item xs={6}>
-              <Controls.Input
+       
+        
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          p: 1,
+          m: 1,
+          bgcolor: 'background.paper',
+          borderRadius:"10px",
+          boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+          width: '50%', 
+          margin:'40px auto',
+        }}
+      >
+      <h1>Declaration Form</h1>
+        <Controls.Input
                 name="fullName"
                 label="Full Name"
               />
                      <Controls.Input
-                label="email"
+                label="Email"
                 name="email"
               />
                <Controls.Input
@@ -60,6 +86,7 @@ const WinnerForm = () => {
                   Select Month
                 </InputLabel>
                 <Select
+               
                   name="Months"
                   labelId="demo-mutiple-name-label"
                   id="demo-mutiple-name"
@@ -87,15 +114,17 @@ const WinnerForm = () => {
                     history.push("/admin");
                   }}
                 />
-              </div>
-            </Grid>
-            <Grid item xs></Grid>
-          </Grid>
-        </Form>
-      </Container>
-      </> 
-        </div>
+              </div>  
+        
+       
+      </Box>
+      
+    
+    </Form>
+   
+    </>
+    
     )
-}
-
-export default WinnerForm
+  }
+  
+  export default WinnerForm

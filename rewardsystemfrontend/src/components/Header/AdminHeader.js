@@ -90,6 +90,7 @@ color:black
 
 const LogoutButton=styled.button`
 font-size:18px;
+font-weight:bold;
 border:none;
 margin-right:50px;
 width:20px;
